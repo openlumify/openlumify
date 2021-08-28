@@ -165,7 +165,7 @@
         <!-- FOR: CDH -->
         <repository>
             <id>com.cloudera</id>
-            <url>https://repository.cloudera.com/content/repositories/releases/</url>
+            <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
         </repository>
 
         <!-- FOR: gwtwiki (Wikipedia parser) -->
