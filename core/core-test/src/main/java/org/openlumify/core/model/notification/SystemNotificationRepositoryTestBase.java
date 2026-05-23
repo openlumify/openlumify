@@ -88,7 +88,9 @@ public abstract class SystemNotificationRepositoryTestBase extends OpenLumifyInM
 
     @Test
     public void testGetFutureNotifications() {
-        Date startDate = Date.from(ZonedDateTime.of(2025, 11, 28, 10, 12, 13, 0, ZoneId.of("GMT")).toInstant());
+        // Start date must be relative to now: getFutureNotifications filters startDate >= now,
+        // so a hardcoded calendar date silently rots into the past and breaks the build over time.
+        Date startDate = Date.from(ZonedDateTime.now(ZoneId.of("GMT")).plusYears(1).toInstant());
         getSystemNotificationRepository().createNotification(
                 SystemNotificationSeverity.INFORMATIONAL,
                 "notification title",

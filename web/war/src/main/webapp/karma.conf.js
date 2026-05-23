@@ -99,7 +99,18 @@ module.exports = function(config) {
             // - Safari (only Mac)
             // - PhantomJS
             // - IE (only Windows)
-            browsers: ['PhantomJS'],
+            // PhantomJS is abandoned and can no longer launch on modern CI images
+            // (its bundled OpenSSL fails against OpenSSL 3.x). Use headless Chrome,
+            // which is preinstalled on the CI runners. --no-sandbox is required because
+            // the build may run as root / in a container.
+            browsers: ['ChromeHeadlessCI'],
+
+            customLaunchers: {
+                ChromeHeadlessCI: {
+                    base: 'ChromeHeadless',
+                    flags: ['--no-sandbox', '--disable-gpu']
+                }
+            },
 
             // If browser does not capture in given timeout [ms], kill it
             captureTimeout: 60000,
