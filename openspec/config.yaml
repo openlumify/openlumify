@@ -1,0 +1,47 @@
+schema: spec-driven
+
+context: |
+  OpenLumify is an open-source big-data graph analysis and visualization platform — a fork of
+  Visallo/Lumify — for exploring entities and relationships hidden in large datasets. It is being
+  modernised with the goal of public hosting for journalism and public-interest organisations.
+
+  Architecture: Maven multi-module Java project.
+    core/core                  DI bootstrap, config, security model, caching, GPW runner
+    core/plugins               model-vertexium (Accumulo + Elasticsearch), model-vertexium-inmemory,
+                               model-simpleorm, model-queue-inmemory
+    graph-property-worker      plugin base + extractor plugins (Tika, email/phone/zipcode, mime mapper)
+    web/web-base               REST route layer, parameter providers, privilege filters
+    web/server                 server-base abstraction + tomcat-server
+    web/war                    WAR assembly and the front-end SPA
+    web/plugins                work products (graph, map), structured-ingest, auth, admin
+    tools, archetype, dev      CLI operations, plugin archetype, local dev scaffolding
+
+  Current baseline (the thing being modernised, not the target):
+    - Java 8; Tomcat 8.5; Elasticsearch 5.5; Accumulo via Vertexium
+    - Front end: React 16 + RequireJS + Flight.js, built with Grunt + Babel, tested with Karma
+    - CI: GitHub Actions (.github/workflows/maven.yml) running mvn -B package
+
+  Three roadmap thrusts drive change:
+    1. Front-end modernization  — replace RequireJS/Grunt, modernise the React component model
+    2. Graph datastore          — upgrade or replace Vertexium; modernise search/index integration
+    3. Public-hosting readiness — multi-tenancy, security hardening, containerization, accessibility
+
+  IMPORTANT — this is brownfield work on inherited code. Specs under openspec/specs/ are a
+  reverse-engineered baseline of how the system behaves TODAY, backfilled from the Piyaz tracker.
+  They are not aspirational. When proposing a change, express it as a delta against the existing
+  baseline and be explicit about which current behaviour is preserved versus intentionally changed
+  — for replacement work (bundler, graph backend, JDK) preserving observable behaviour is usually
+  the whole point.
+
+  Work tracking lives in Piyaz (project LMFY), NOT in OpenSpec. Piyaz is the single source of
+  truth for task status, dependencies, and execution records. A change's tasks.md is planning
+  detail that feeds a Piyaz task's implementationPlan; do not treat it as a parallel tracker.
+
+rules:
+  proposal:
+    - State which existing capability spec(s) the change deltas against, by name.
+    - For replacement/upgrade work, state explicitly what observable behaviour must be preserved.
+    - Reference the governing Piyaz task ref (e.g. LMFY-18) if one exists.
+  specs:
+    - Cite real paths and symbols; omit what you cannot verify in the tree.
+    - Requirements describe observable behaviour, not implementation structure.
