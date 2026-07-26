@@ -20,3 +20,6 @@ dependency-reduced-pom.xml
 datastore/
 docs/java
 docs/javascript
+
+# Per-developer agent settings; the shared opsx commands/skills are tracked
+.claude/settings.local.json
